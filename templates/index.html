@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEA Problem Solver</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-calculator"></i>
+                    <span>FEA Solver</span>
+                </div>
+                <div class="model-badges">
+                    <span class="badge">Gemini AI</span>
+                    <span class="badge">OpenAI</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Chat Container -->
+        <div class="chat-container">
+            <!-- Welcome Message -->
+            <div class="welcome-section" id="welcomeSection">
+                <div class="welcome-content">
+                    <div class="welcome-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h1>FEA Problem Solver</h1>
+                    <p>I can help you solve finite element analysis problems using multiple AI models. Enter your problem description below and I'll provide solutions from both Gemini AI and OpenAI, along with an averaged result.</p>
+                    
+                    <div class="example-problems">
+                        <h3>Example Problems:</h3>
+                        <div class="example-item" onclick="setExample(this)">
+                            <i class="fas fa-wave-square"></i>
+                            <span>A single-degree-of-freedom system has mass m=2kg and spring stiffness k=1000N/m. Find: The natural frequency of vibration in radians per second</span>
+                        </div>
+                        <div class="example-item" onclick="setExample(this)">
+                            <i class="fas fa-compress-arrows-alt"></i>
+                            <span>A steel beam with length 5m, Young's modulus 200GPa, and moment of inertia 8.33×10⁻⁶ m⁴ is subjected to a point load of 10kN at the center. Find the maximum deflection.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="messages-container" id="messagesContainer" style="display: none;">
+                <!-- Messages will be added here dynamically -->
+            </div>
+        </div>
+
+        <!-- Input Section -->
+        <div class="input-section">
+            <div class="input-container">
+                <form id="feaForm" class="input-form">
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="problem" 
+                            name="problem" 
+                            placeholder="Describe your finite element analysis problem..."
+                            rows="3"
+                            maxlength="2000"
+                        ></textarea>
+                        <button type="submit" id="solveBtn" class="send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="input-info">
+                        <span class="char-counter">
+                            <span id="charCount">0</span>/2000
+                        </span>
+                        <span class="powered-by">
+                            Powered by Gemini AI & OpenAI
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text" id="loadingText">Processing your problem...</div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script>
+        function setExample(element) {
+            const text = element.querySelector('span').textContent;
+            document.getElementById('problem').value = text;
+            document.getElementById('problem').focus();
+            updateCharCount();
+        }
+
+        function updateCharCount() {
+            const textarea = document.getElementById('problem');
+            const charCount = document.getElementById('charCount');
+            charCount.textContent = textarea.value.length;
+        }
+
+        document.getElementById('problem').addEventListener('input', updateCharCount);
+    </script>
+</body>
+</html>
